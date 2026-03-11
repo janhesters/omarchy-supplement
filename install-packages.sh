@@ -10,6 +10,6 @@ omarchy-pkg-add stow bun ddcutil keyd voxtype fcitx5-chinese-addons
 
 # AUR packages
 echo "[packages] Installing from AUR..."
-omarchy-pkg-aur-add brave-bin
+omarchy-pkg-aur-add brave-bin slack-desktop-wayland
 
 echo "[packages] Done."
