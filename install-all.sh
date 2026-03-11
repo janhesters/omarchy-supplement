@@ -18,6 +18,7 @@ echo ""
 "$SCRIPT_DIR/install-themes.sh"
 "$SCRIPT_DIR/install-repos.sh"
 "$SCRIPT_DIR/set-default-browser.sh"
+"$SCRIPT_DIR/install-spellcheck.sh"
 
 echo ""
 echo "=== All done! ==="
