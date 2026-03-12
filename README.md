@@ -11,6 +11,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-packages.sh` | Install packages via `omarchy-pkg-add` and `omarchy-pkg-aur-add` |
 | `install-keyd.sh` | Configure key remapping (CapsLock → Ctrl/Esc, Esc → Pause) |
 | `install-ddcutil.sh` | Enable DDC/CI for external monitor brightness control |
+| `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
 | `install-keyboard-layout.sh` | Set up Dvorak + QWERTY + Pinyin keyboard layouts |
 | `install-webapps.sh` | Install web apps (Claude, Google Mail, Google Calendar) |
 | `install-dotfiles.sh` | Clone and stow dotfiles |
