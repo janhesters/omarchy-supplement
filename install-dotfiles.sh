@@ -4,7 +4,7 @@ set -e
 
 DOTFILES_DIR="$HOME/dev/dotfiles"
 DOTFILES_REPO="git@github.com:janhesters/dotfiles.git"
-STOW_PACKAGES=(hyprland fastfetch voxtype xdg)
+STOW_PACKAGES=(hyprland fastfetch voxtype xdg xcompose)
 SNAPSHOT_DIR="$HOME/.local/state/dotfiles/omarchy-templates"
 
 # Files we override (relative to ~/.config/)
@@ -51,6 +51,12 @@ for file in "${MANAGED_FILES[@]}"; do
   rm -f "$HOME/.config/$file"
 done
 
+# Remove ~/.XCompose separately (lives in home root, not ~/.config/)
+if [ -f "$HOME/.XCompose" ] || [ -L "$HOME/.XCompose" ]; then
+  echo "[dotfiles] Removing existing ~/.XCompose to avoid stow conflict..."
+  rm -f "$HOME/.XCompose"
+fi
+
 # Stow each package
 echo "[dotfiles] Stowing packages..."
 cd "$DOTFILES_DIR"
@@ -63,5 +69,6 @@ done
 echo "[dotfiles] Reloading Hyprland and Waybar..."
 hyprctl reload 2>/dev/null || true
 omarchy-restart-waybar 2>/dev/null || true
+omarchy-restart-xcompose 2>/dev/null || true
 
 echo "[dotfiles] Done."
