@@ -1,27 +1,30 @@
 #!/bin/bash
 
-# Add German (de) spell checking alongside English in Electron apps
-# (Signal, Slack, Brave, etc.).
+# Install hunspell dictionaries for English and German spell checking.
 #
-# Electron/Chromium on Linux reads the LANGUAGE environment variable to
-# determine which spell-check dictionaries to load. Setting it via
-# environment.d makes it persistent across reboots and available to all
-# apps launched in the systemd user session.
+# Chromium/Electron apps (Brave, Slack, Signal) manage their own spellcheck
+# dictionaries via app settings — they do NOT use system hunspell. Configure
+# spellcheck languages in each app's preferences:
+#   - Brave:  brave://settings/languages
+#   - Slack:  Preferences > Language & region
+#   - Signal: Right-click text field > Spelling
+#
+# System hunspell is still useful for other apps (LibreOffice, GTK editors).
+#
+# NOTE: Do NOT set the LANGUAGE environment variable for spellcheck — it
+# changes the UI language of CLI tools (git, pacman, etc.) to German.
 
 set -e
 
-ENV_DIR="$HOME/.config/environment.d"
-ENV_FILE="$ENV_DIR/language.conf"
-
-echo "[spellcheck] Configuring spell check languages..."
-
-mkdir -p "$ENV_DIR"
-
+# Clean up the old LANGUAGE env var approach which broke CLI tool locales
+ENV_FILE="$HOME/.config/environment.d/language.conf"
 if [[ -f "$ENV_FILE" ]] && grep -q 'LANGUAGE=.*de' "$ENV_FILE"; then
-  echo "  -> LANGUAGE already includes de, skipping."
-else
-  echo "LANGUAGE=en_US:de" > "$ENV_FILE"
-  echo "  -> Set LANGUAGE=en_US:de in $ENV_FILE"
+  rm "$ENV_FILE"
+  echo "[spellcheck] Removed $ENV_FILE (was breaking CLI locale)."
 fi
 
-echo "[spellcheck] Done. Log out and back in for changes to take effect."
+echo "[spellcheck] Installing hunspell dictionaries..."
+
+omarchy-pkg-add hunspell-en_us hunspell-de
+
+echo "[spellcheck] Done."
