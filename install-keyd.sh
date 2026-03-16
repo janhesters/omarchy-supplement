@@ -10,7 +10,11 @@ sudo tee /etc/keyd/default.conf > /dev/null << 'EOF'
 *
 
 [main]
+# Tap Caps Lock → Escape (exactly what you wanted!)
+# Hold Caps Lock → Ctrl (super useful bonus)
 capslock = overload(control, esc)
+
+# Remap the physical Esc key to Pause so we can use it for compose
 esc = pause
 EOF
 
