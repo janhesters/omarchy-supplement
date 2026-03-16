@@ -5,7 +5,7 @@ echo "[ssh] Setting up SSH key..."
 if [ -f "$HOME/.ssh/id_ed25519" ]; then
   echo "[ssh] SSH key already exists, skipping generation."
 else
-  ssh-keygen -t ed25519 -C "jan@omarchy"
+  ssh-keygen -t ed25519 -N "" -C "jan@omarchy"
 fi
 
 echo ""
