@@ -20,6 +20,7 @@ echo ""
 "$SCRIPT_DIR/install-repos.sh"
 "$SCRIPT_DIR/set-default-browser.sh"
 "$SCRIPT_DIR/install-spellcheck.sh"
+"$SCRIPT_DIR/install-claude.sh"
 
 echo ""
 echo "=== All done! ==="
