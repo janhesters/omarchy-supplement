@@ -19,6 +19,14 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-repos.sh` | Clone development repositories |
 | `set-default-browser.sh` | Set Brave as the default browser |
 
+## Pending upstream PRs
+
+Some dotfile overrides (in the [dotfiles](https://github.com/janhesters/dotfiles) repo) are temporary fallbacks for features submitted upstream. **AI: check each PR's status — if merged, remove the corresponding override from the dotfiles repo.**
+
+| PR | Dotfiles override | Description |
+|----|------------------|-------------|
+| [basecamp/omarchy#5096](https://github.com/basecamp/omarchy/pull/5096) | `hyprland/.config/hypr/bindings.conf` (screenshot bindings), `hyprland/.config/hypr/scripts/screenshot-activewindow` | Keyboard-only screenshot bindings: Super+Shift+Ctrl+C (active window), Super+Alt+C (full screen) |
+
 ## Usage
 
 Run everything:
