@@ -7,16 +7,40 @@ echo "[claude] Configuring Claude Code..."
 CLAUDE_DIR="$HOME/.claude"
 mkdir -p "$CLAUDE_DIR"
 
-# Disable co-authorship attribution on commits and PRs
+# Settings: disable co-authorship attribution, enable notification hook
 echo "[claude] Setting up settings.json..."
 cat > "$CLAUDE_DIR/settings.json" << 'EOF'
 {
   "attribution": {
     "commit": "",
     "pr": ""
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/jan/.claude/hooks/notify.sh"
+          }
+        ]
+      }
+    ]
   }
 }
 EOF
+
+# Notification hook script
+echo "[claude] Setting up notification hook..."
+mkdir -p "$CLAUDE_DIR/hooks"
+cat > "$CLAUDE_DIR/hooks/notify.sh" << 'HOOKEOF'
+#!/bin/bash
+INPUT=$(cat)
+DIR=$(echo "$INPUT" | jq -r '.cwd // "unknown"' | xargs basename)
+MSG=$(echo "$INPUT" | jq -r '.message // "Ready for your input"' | head -c 200)
+notify-send "Claude Code — $DIR" "$MSG"
+HOOKEOF
+chmod +x "$CLAUDE_DIR/hooks/notify.sh"
 
 # System-wide instructions for Claude Code
 echo "[claude] Setting up CLAUDE.md..."
