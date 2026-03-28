@@ -4,7 +4,7 @@ set -e
 
 DOTFILES_DIR="$HOME/dev/dotfiles"
 DOTFILES_REPO="git@github.com:janhesters/dotfiles.git"
-STOW_PACKAGES=(hyprland fastfetch voxtype xdg xcompose)
+STOW_PACKAGES=(hyprland fastfetch voxtype xdg xcompose espanso)
 SNAPSHOT_DIR="$HOME/.local/state/dotfiles/omarchy-templates"
 
 # Files we override (relative to ~/.config/)
@@ -70,5 +70,12 @@ echo "[dotfiles] Reloading Hyprland and Waybar..."
 hyprctl reload 2>/dev/null || true
 omarchy-restart-waybar 2>/dev/null || true
 omarchy-restart-xcompose 2>/dev/null || true
+
+# Enable espanso text expansion service
+if command -v espanso &>/dev/null; then
+  echo "[dotfiles] Registering and starting espanso..."
+  espanso service register 2>/dev/null || true
+  espanso start 2>/dev/null || true
+fi
 
 echo "[dotfiles] Done."

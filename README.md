@@ -8,7 +8,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 |--------|-------------|
 | `install-all.sh` | Run all install scripts in order |
 | `install-ssh.sh` | Generate SSH key and configure GitHub access |
-| `install-packages.sh` | Install packages via `omarchy-pkg-add` and `omarchy-pkg-aur-add` |
+| `install-packages.sh` | Install packages via `omarchy-pkg-add` and `omarchy-pkg-aur-add` (includes espanso-wayland for text expansion) |
 | `install-keyd.sh` | Configure key remapping (CapsLock → Ctrl/Esc, Esc → Pause) |
 | `install-ddcutil.sh` | Enable DDC/CI for external monitor brightness control |
 | `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
