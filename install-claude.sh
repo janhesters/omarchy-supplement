@@ -11,6 +11,9 @@ mkdir -p "$CLAUDE_DIR"
 echo "[claude] Setting up settings.json..."
 cat > "$CLAUDE_DIR/settings.json" << 'EOF'
 {
+  "permissions": {
+    "defaultMode": "auto"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -46,6 +49,10 @@ chmod +x "$CLAUDE_DIR/hooks/notify.sh"
 echo "[claude] Setting up CLAUDE.md..."
 cat > "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
 # System-Wide Instructions
+
+## Asking Questions
+
+When unsure about the user's intent, constraints, or the best approach, ask clarifying questions rather than guessing. This applies both before starting work (e.g., before researching, fetching, or writing code) and after gathering information (e.g., when findings are ambiguous or multiple paths are viable). Prefer a short question over a wrong assumption.
 
 ## Omarchy
 
