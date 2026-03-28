@@ -1,6 +1,6 @@
 # omarchy-supplement
 
-Additional packages, dotfiles, and overrides to be used **after** installing [Omarchy](https://omarchy.org/).
+Additional packages, dotfiles, and overrides to be used **after** installing [Omarchy](https://omarchy.org/). Run this **before** manually using the [dotfiles](https://github.com/janhesters/dotfiles) repo — `install-dotfiles.sh` clones and stows those dotfiles automatically.
 
 ## Scripts
 
