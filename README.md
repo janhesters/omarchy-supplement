@@ -13,11 +13,15 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-ddcutil.sh` | Enable DDC/CI for external monitor brightness control |
 | `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
 | `install-keyboard-layout.sh` | Set up Dvorak + QWERTY + Pinyin keyboard layouts |
-| `install-webapps.sh` | Install web apps (Claude, Google Mail, Google Calendar) |
+| `install-webapps.sh` | Install web apps (Claude, Claude Code, Google Mail, Google Calendar) |
 | `install-dotfiles.sh` | Clone and stow dotfiles |
 | `install-themes.sh` | Install extra Omarchy themes |
 | `install-repos.sh` | Clone development repositories |
 | `set-default-browser.sh` | Set Brave as the default browser |
+| `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
+| `install-claude.sh` | Configure Claude Code settings, notification hook, and system instructions |
+| `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
+| `check-drift.sh` | Detect when omarchy template updates conflict with dotfile overrides |
 
 ## Usage
 
