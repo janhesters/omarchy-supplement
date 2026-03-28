@@ -2,7 +2,7 @@
 
 # Set up Dvorak + ABC Extended (QWERTY) + Pinyin on Omarchy.
 #
-# - Hyprland XKB handles Dvorak <-> QWERTY (Left Alt + Right Alt)
+# - Hyprland keybind handles Dvorak <-> QWERTY (Left Alt + Right Alt)
 # - fcitx5 handles Pinyin on/off (Ctrl+/)
 # - Pinyin inherits the active Latin layout (macOS-like behavior)
 # - Waybar shows the active XKB layout indicator
@@ -98,7 +98,7 @@ echo "[keyboard] Applying keyboard settings live..."
 if command -v hyprctl &>/dev/null; then
   hyprctl keyword input:kb_layout "us,us" 2>/dev/null || true
   hyprctl keyword input:kb_variant "dvorak," 2>/dev/null || true
-  hyprctl keyword input:kb_options "compose:paus,grp:alts_toggle" 2>/dev/null || true
+  hyprctl keyword input:kb_options "compose:paus" 2>/dev/null || true
 fi
 
 if command -v fcitx5-remote &>/dev/null; then
@@ -108,7 +108,18 @@ fi
 # Restart waybar to pick up language module
 omarchy-restart-waybar 2>/dev/null || true
 
+# Start espanso layout sync listener (dotfiles autostart.conf makes this persist across reboots).
+# The listener watches for Hyprland layout change events and updates espanso's
+# keyboard_layout config so triggers work on both Dvorak and QWERTY.
+if command -v socat &>/dev/null && command -v espanso &>/dev/null; then
+  echo "[keyboard] Starting espanso layout sync listener..."
+  pkill -f espanso-layout-sync 2>/dev/null || true
+  ~/.config/hypr/scripts/espanso-layout-sync &
+  disown
+fi
+
 echo "[keyboard] Done."
 echo ""
 echo "  Dvorak <-> QWERTY    Left Alt + Right Alt"
 echo "  Pinyin on/off        Ctrl + /"
+echo "  Espanso layout sync  automatic (via Hyprland event listener)"
