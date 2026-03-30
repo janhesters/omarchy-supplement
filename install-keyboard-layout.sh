@@ -94,11 +94,14 @@ CSSEOF
 fi
 
 # 4. Apply Hyprland settings live (dotfiles have the persistent config)
+# QWERTY is index 0 so Electron apps (Cursor) that read the first/default
+# XKB layout see QWERTY for correct hotkeys. We then switch to Dvorak (index 1).
 echo "[keyboard] Applying keyboard settings live..."
 if command -v hyprctl &>/dev/null; then
   hyprctl keyword input:kb_layout "us,us" 2>/dev/null || true
-  hyprctl keyword input:kb_variant "dvorak," 2>/dev/null || true
+  hyprctl keyword input:kb_variant ",dvorak" 2>/dev/null || true
   hyprctl keyword input:kb_options "compose:paus" 2>/dev/null || true
+  hyprctl switchxkblayout all 1 2>/dev/null || true
 fi
 
 if command -v fcitx5-remote &>/dev/null; then
