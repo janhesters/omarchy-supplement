@@ -18,6 +18,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-themes.sh` | Install extra Omarchy themes |
 | `install-repos.sh` | Clone development repositories |
 | `set-default-browser.sh` | Set Brave as the default browser |
+| `set-default-pdf-viewer.sh` | Set Xournal++ as the default PDF viewer |
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
 | `install-claude.sh` | Configure Claude Code settings, notification hook, and system instructions |
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
