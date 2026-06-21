@@ -64,6 +64,10 @@ OmarchyConstraints {
 }
 
 OmarchyPackageManagement {
+  Constraints {
+    Never use `pacman -S` or `yay -S` directly — Omarchy's package wrappers ensure consistency across updates.
+  }
+
   install(package) => match (package) {
     case (official Arch repo) => `omarchy-pkg-add <package>`
     case (AUR) => `omarchy-pkg-aur-add <package>`
