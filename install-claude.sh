@@ -125,6 +125,12 @@ constraint TodoIntake {
   If an item's meaning is ambiguous or underspecified (e.g. a terse label like "Post checken"), ask what it refers to before adding, so the stored task is self-explanatory later.
   On a pasted batch: ask once (batched, not item-by-item spam) for each item's priority (H/M/L/none) and whether it has a deadline/delivery time + when, vs. a plain "need to do this". Only fall back to no-priority/no-due after the user declines.
   On a single later add: ask where it sits in the priority order — capture as priority level, and when finer ranking is needed set a `due` date to position it relative to neighbours.
+  Disambiguate "schedule" / "scheduled today" — it carries several meanings; identify which before acting (ask if unclear):
+    1. defer in the tracker — set the task's `due`/`scheduled` to a later day (pure todo tracking).
+    2. do it today, send later — produce the artifact today (message/email/code), schedule it to go out (send/PR) on a future day => `due:today` + annotate "schedule the send for <day>".
+    3. like 2 but it goes out later *today* => `due:today` + annotate the send time.
+    4. book a calendar event/meeting (e.g. "schedule a call") => create via Calendar (MCP), not a todo.
+  Fold rich context into the task as annotations, including tool hints (about email => Gmail via MCP; about Slack => Slack via MCP; relevant links, names, the next concrete step) so the task stays actionable later without re-deriving context.
   After any change, show the resulting `task next` so the user sees the new ranking.
 }
 
