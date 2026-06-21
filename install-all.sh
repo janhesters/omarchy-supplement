@@ -23,6 +23,7 @@ echo ""
 "$SCRIPT_DIR/install-spellcheck.sh"
 "$SCRIPT_DIR/install-claude.sh"
 "$SCRIPT_DIR/install-focus.sh"
+"$SCRIPT_DIR/install-tasks.sh"
 
 echo ""
 echo "=== All done! ==="
