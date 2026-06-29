@@ -6,10 +6,10 @@ echo "[packages] Installing packages..."
 
 # Official repo packages
 echo "[packages] Installing from official repos..."
-omarchy-pkg-add stow bun ddcutil keyd voxtype fcitx5-chinese-addons socat task taskwarrior-tui
+omarchy-pkg-add stow bun ddcutil keyd voxtype fcitx5-chinese-addons socat task taskwarrior-tui wf-recorder
 
 # AUR packages
 echo "[packages] Installing from AUR..."
-omarchy-pkg-aur-add brave-bin slack-desktop-wayland espanso-wayland
+omarchy-pkg-aur-add brave-bin slack-desktop-wayland espanso-wayland evdi-dkms displaylink
 
 echo "[packages] Done."

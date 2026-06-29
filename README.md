@@ -8,7 +8,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 |--------|-------------|
 | `install-all.sh` | Run all install scripts in order |
 | `install-ssh.sh` | Generate SSH key and configure GitHub access |
-| `install-packages.sh` | Install packages via `omarchy-pkg-add` and `omarchy-pkg-aur-add` (includes espanso-wayland for text expansion and taskwarrior for todos) |
+| `install-packages.sh` | Install packages via `omarchy-pkg-add` and `omarchy-pkg-aur-add` (includes espanso-wayland for text expansion, taskwarrior for todos, and wf-recorder + displaylink for teleprompter recording) |
 | `install-keyd.sh` | Configure key remapping (CapsLock → Ctrl/Esc, Esc → Pause) |
 | `install-ddcutil.sh` | Enable DDC/CI for external monitor brightness control |
 | `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
@@ -23,6 +23,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-claude.sh` | Configure Claude Code settings, notification hook, and system instructions |
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
 | `install-tasks.sh` | Install the [omarchy-tasks](https://github.com/janhesters/omarchy-tasks) Waybar module (Taskwarrior tasks in the bar, Super + T opens taskwarrior-tui) |
+| `install-teleprompter.sh` | Set up teleprompter recording for the Elgato Prompter (DisplayLink/evdi display): enable the DisplayLink service and install a waybar indicator that distinguishes a teleprompter recording (cyan monitor glyph) from a normal gpu-screen-recorder one (red dot), click to stop. The Super + Alt + P binding and `record-teleprompter` script live in the [dotfiles](https://github.com/janhesters/dotfiles) repo. |
 | `check-drift.sh` | Detect when omarchy template updates conflict with dotfile overrides |
 
 ## Usage
