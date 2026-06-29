@@ -24,6 +24,7 @@ echo ""
 "$SCRIPT_DIR/install-claude.sh"
 "$SCRIPT_DIR/install-focus.sh"
 "$SCRIPT_DIR/install-tasks.sh"
+"$SCRIPT_DIR/install-teleprompter.sh"
 
 echo ""
 echo "=== All done! ==="
