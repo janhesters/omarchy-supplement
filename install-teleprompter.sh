@@ -12,7 +12,9 @@
 #   - enables the DisplayLink service (so the Prompter shows up as a monitor)
 #   - installs a waybar indicator that distinguishes a teleprompter recording
 #     (cyan monitor glyph) from a normal gpu-screen-recorder one (red dot) and
-#     stops whichever is active on click
+#     stops whichever is active on click; while the record-teleprompter watchdog
+#     waits for a disconnected prompter to come back (dock USB drop), the glyph
+#     turns orange instead of disappearing
 #
 # Packages (wf-recorder, displaylink, evdi-dkms) are installed by install-packages.sh.
 # The Super+Alt+P keybinding and the record-teleprompter script live in the dotfiles repo.
@@ -48,9 +50,15 @@ cat > "$INDICATOR_DIR/screen-recording.sh" <<'INDICATOR'
 # lets you tell at a glance which kind of recording is running.
 #
 #   teleprompter (wf-recorder) -> cyan monitor glyph
+#   teleprompter waiting to auto-resume after a dock drop -> orange monitor glyph
 #   normal screen (gpu-screen-recorder) -> red record dot
+#
+# The waiting state file is written by the record-teleprompter watchdog (dotfiles)
+# while the prompter output is gone and the recording will resume on reconnect.
 
-if pgrep -x wf-recorder >/dev/null; then
+if [[ -f /tmp/record-teleprompter.waiting ]]; then
+  echo '{"text": "󰍹", "tooltip": "Prompter disconnected — recording auto-resumes when it returns; click to end the session", "class": "teleprompter-waiting"}'
+elif pgrep -x wf-recorder >/dev/null; then
   echo '{"text": "󰍹", "tooltip": "Recording teleprompter — click to stop", "class": "teleprompter"}'
 elif pgrep -f "^gpu-screen-recorder" >/dev/null; then
   echo '{"text": "󰻂", "tooltip": "Stop recording", "class": "active"}'
@@ -66,9 +74,10 @@ cat > "$INDICATOR_DIR/screen-recording-stop.sh" <<'STOP'
 #
 # on-click for the waybar screen-recording indicator: stop whichever capture is
 # active. Teleprompter (wf-recorder) takes precedence; its toggle script also
-# tears down any audio-mix modules and refreshes waybar.
+# tears down any audio-mix modules, kills the reconnect watchdog when the session
+# is in the waiting-to-resume state, and refreshes waybar.
 
-if pgrep -x wf-recorder >/dev/null; then
+if pgrep -x wf-recorder >/dev/null || [[ -f /tmp/record-teleprompter.waiting ]]; then
   exec ~/.config/hypr/scripts/record-teleprompter
 elif pgrep -f "^gpu-screen-recorder" >/dev/null; then
   exec omarchy-capture-screenrecording
@@ -91,9 +100,10 @@ if [[ -f "$WAYBAR_CONFIG" ]]; then
   fi
 fi
 
-# 4. Add the teleprompter icon color (cyan), next to the stock red .active rule.
+# 4. Add the teleprompter icon colors (cyan = recording, orange = waiting to
+#    resume after a dock drop), next to the stock red .active rule.
 if [[ -f "$WAYBAR_STYLE" ]]; then
-  if grep -q '#custom-screenrecording-indicator.teleprompter' "$WAYBAR_STYLE"; then
+  if grep -q '#custom-screenrecording-indicator.teleprompter {' "$WAYBAR_STYLE"; then
     echo "  -> Waybar style already has teleprompter rule, skipping."
   else
     cat >> "$WAYBAR_STYLE" <<'CSSEOF'
@@ -104,6 +114,17 @@ if [[ -f "$WAYBAR_STYLE" ]]; then
 CSSEOF
     echo "  -> Added teleprompter indicator styling"
   fi
+  if grep -q '#custom-screenrecording-indicator.teleprompter-waiting' "$WAYBAR_STYLE"; then
+    echo "  -> Waybar style already has teleprompter-waiting rule, skipping."
+  else
+    cat >> "$WAYBAR_STYLE" <<'CSSEOF'
+
+#custom-screenrecording-indicator.teleprompter-waiting {
+  color: #f5a97f;
+}
+CSSEOF
+    echo "  -> Added teleprompter waiting-state styling"
+  fi
 fi
 
 # 5. Restart waybar to pick up the changes.
@@ -112,4 +133,5 @@ omarchy-restart-waybar 2>/dev/null || true
 echo "[teleprompter] Done."
 echo ""
 echo "  Super + Alt + P   Toggle teleprompter recording (binding lives in dotfiles)"
-echo "  Waybar icon       cyan monitor = teleprompter, red dot = normal recording; click to stop"
+echo "  Waybar icon       cyan monitor = teleprompter, orange monitor = waiting to auto-resume,"
+echo "                    red dot = normal recording; click to stop"
