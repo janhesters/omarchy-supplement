@@ -4,7 +4,7 @@ set -e
 
 DOTFILES_DIR="$HOME/dev/dotfiles"
 DOTFILES_REPO="git@github.com:janhesters/dotfiles.git"
-STOW_PACKAGES=(cursor hyprland fastfetch voxtype xdg xcompose espanso)
+STOW_PACKAGES=(codex cursor hyprland fastfetch voxtype xdg xcompose espanso)
 SNAPSHOT_DIR="$HOME/.local/state/dotfiles/omarchy-templates"
 
 # Files we override (relative to ~/.config/)
