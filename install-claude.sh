@@ -5,7 +5,8 @@ set -e
 echo "[claude] Configuring Claude Code..."
 
 CLAUDE_DIR="$HOME/.claude"
-mkdir -p "$CLAUDE_DIR"
+CODEX_DIR="$HOME/.codex"
+mkdir -p "$CLAUDE_DIR" "$CODEX_DIR"
 
 # Settings: disable co-authorship attribution, enable notification hook
 echo "[claude] Setting up settings.json..."
@@ -45,7 +46,7 @@ notify-send "Claude Code — $DIR" "$MSG"
 HOOKEOF
 chmod +x "$CLAUDE_DIR/hooks/notify.sh"
 
-# System-wide instructions for Claude Code
+# System-wide instructions for Claude Code and Codex
 echo "[claude] Setting up CLAUDE.md..."
 cat > "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
 # System-Wide Instructions
@@ -53,6 +54,14 @@ cat > "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
 ## Asking Questions
 
 When unsure about the user's intent, constraints, or the best approach, ask clarifying questions rather than guessing. This applies both before starting work (e.g., before researching, fetching, or writing code) and after gathering information (e.g., when findings are ambiguous or multiple paths are viable). Prefer a short question over a wrong assumption.
+
+## Prose Writing
+
+Whenever writing prose for the user — including Slack messages / DMs, emails, video descriptions, blog articles, documentation, and similar written material — first read and follow the prose-writing skill at `~/dev/aidd-jan/.claude/skills/aidd-prose-writing/SKILL.md`.
+
+## Skill Creation
+
+Whenever creating or updating a skill, first read and follow the skill-creating skill at `~/dev/aidd-jan/.claude/skills/aidd-skill-creating/SKILL.md`.
 
 ## Omarchy
 
@@ -104,6 +113,13 @@ constraint ThreadReads {
   To read or summarize a thread => get_thread(threadId) for the complete message list.
 }
 
+## Printing
+
+constraint Printing {
+  Plain `lp` prints tiny on the Canon MG4200 (driverless IPP) — always force the paper size: `lp -o media=A4 -o fit-to-page <file>`.
+  The Canon also silently drops text in some embedded fonts (e.g. bank form fill-ins) — if content is missing from a printout, rasterize first: `pdftoppm -png -r 300` → `img2pdf`/`magick` → print the image PDF.
+}
+
 ## Todos
 
 Personal todos live in **Taskwarrior** (`task` CLI; `taskwarrior-tui` for an interactive board). Drive everything through the `task` command — never hand-edit `~/.task/`.
@@ -139,5 +155,8 @@ constraint TodoIntake {
 - **`~/dev/dotfiles`** — GNU Stow packages for config file overrides (`~/.config/hypr/`, `~/.config/espanso/`, etc.). Use for files that can be fully owned by the user and symlinked into `~/.config/`. Not suitable for shared files like `mimeapps.list` that other tools also write to.
 - **`~/dev/omarchy-supplement`** — Idempotent install scripts for post-Omarchy setup (packages, key remapping, default apps, web apps, themes, etc.). Use for imperative actions like `xdg-mime default`, package installs, or anything that modifies shared system state.
 CLAUDEEOF
+
+echo "[codex] Setting up AGENTS.md..."
+cp "$CLAUDE_DIR/CLAUDE.md" "$CODEX_DIR/AGENTS.md"
 
 echo "[claude] Done."
