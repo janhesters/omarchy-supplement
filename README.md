@@ -14,14 +14,14 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
 | `install-keyboard-layout.sh` | Set up Dvorak + QWERTY + Pinyin keyboard layouts |
 | `install-webapps.sh` | Install web apps (Claude, Claude Code, Google Mail, Google Calendar) |
-| `install-dotfiles.sh` | Clone and stow dotfiles |
+| `install-dotfiles.sh` | Clone and stow dotfiles (includes `agents`, `claude`, `codex`, `grok` packages for shared global agent instructions) |
 | `install-themes.sh` | Install extra Omarchy themes |
 | `install-repos.sh` | Clone development repositories |
 | `set-default-browser.sh` | Set Brave as the default browser |
 | `set-default-pdf-viewer.sh` | Set Xournal++ as the default PDF viewer |
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
-| `install-claude.sh` | Configure Claude Code settings, notification hook, Claude instructions, and Codex instructions |
-| `install-grok.sh` | Install the Grok Build CLI via the official x.ai installer (user-level `~/.grok`, self-updating — the AUR package lags the beta releases) |
+| `install-claude.sh` | Configure Claude Code settings and notification hook; link `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` to the shared `~/.agents/AGENTS.md` body (from the dotfiles `agents` package) |
+| `install-grok.sh` | Install the Grok Build CLI via the official x.ai installer (user-level `~/.grok`, self-updating — the AUR package lags the beta releases); link `~/.grok/AGENTS.md` to `~/.agents/AGENTS.md` and set `permission_mode = "auto"` |
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
 | `install-tasks.sh` | Install the [omarchy-tasks](https://github.com/janhesters/omarchy-tasks) Waybar module (Taskwarrior tasks in the bar, Super + T opens taskwarrior-tui) |
 | `install-teleprompter.sh` | Set up teleprompter recording for the Elgato Prompter (DisplayLink/evdi display): enable the DisplayLink service and install a waybar indicator that distinguishes a teleprompter recording (cyan monitor glyph) from a normal gpu-screen-recorder one (red dot), click to stop. When the recording's watchdog is waiting for a disconnected prompter to come back (dock USB drop), the glyph turns orange instead of disappearing; the recording auto-resumes on reconnect and the session is stitched into one continuous video on stop. The Super + Alt + P binding and `record-teleprompter` script (watchdog + stitching) live in the [dotfiles](https://github.com/janhesters/dotfiles) repo. |
