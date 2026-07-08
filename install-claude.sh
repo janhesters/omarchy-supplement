@@ -6,7 +6,11 @@ echo "[claude] Configuring Claude Code..."
 
 CLAUDE_DIR="$HOME/.claude"
 CODEX_DIR="$HOME/.codex"
-mkdir -p "$CLAUDE_DIR" "$CODEX_DIR"
+AGENTS_DIR="$HOME/.agents"
+AGENTS_MD="$AGENTS_DIR/AGENTS.md"
+DOTFILES_AGENTS="$HOME/dev/dotfiles/agents/.agents/AGENTS.md"
+
+mkdir -p "$CLAUDE_DIR" "$CODEX_DIR" "$AGENTS_DIR"
 
 # Settings: disable co-authorship attribution, enable notification hook
 echo "[claude] Setting up settings.json..."
@@ -46,117 +50,33 @@ notify-send "Claude Code — $DIR" "$MSG"
 HOOKEOF
 chmod +x "$CLAUDE_DIR/hooks/notify.sh"
 
-# System-wide instructions for Claude Code and Codex
-echo "[claude] Setting up CLAUDE.md..."
-cat > "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
-# System-Wide Instructions
+# System-wide instructions: one body at ~/.agents/AGENTS.md; tool names are symlinks.
+# Prefer the stowed file from the dotfiles agents package; fall back to copying from the repo.
+echo "[claude] Linking global agent instructions..."
+if [[ ! -f "$AGENTS_MD" && ! -L "$AGENTS_MD" ]]; then
+  if [[ -f "$DOTFILES_AGENTS" ]]; then
+    cp "$DOTFILES_AGENTS" "$AGENTS_MD"
+    echo "[claude] Seeded $AGENTS_MD from dotfiles agents package."
+  else
+    echo "[claude] WARNING: $AGENTS_MD missing and $DOTFILES_AGENTS not found."
+    echo "[claude] Run install-dotfiles.sh (with the agents package) first, or create the file manually."
+  fi
+fi
 
-## Asking Questions
-
-When unsure about the user's intent, constraints, or the best approach, ask clarifying questions rather than guessing. This applies both before starting work (e.g., before researching, fetching, or writing code) and after gathering information (e.g., when findings are ambiguous or multiple paths are viable). Prefer a short question over a wrong assumption.
-
-## Prose Writing
-
-Whenever writing prose for the user — including Slack messages / DMs, emails, video descriptions, blog articles, documentation, and similar written material — first read and follow the prose-writing skill at `~/dev/aidd-jan/.claude/skills/aidd-prose-writing/SKILL.md`.
-
-## Skill Creation
-
-Whenever creating or updating a skill, first read and follow the skill-creating skill at `~/dev/aidd-jan/.claude/skills/aidd-skill-creating/SKILL.md`.
-
-## Omarchy
-
-Omarchy wraps system tools with its own commands. Always use `omarchy` wrappers — never call underlying tools (systemctl, systemd-run, notify-send, pacman, yay, etc.) directly. Discover available commands with `omarchy commands`.
-
-OmarchyConstraints {
-  Never use underlying tools directly when an `omarchy` command exists.
-  Never edit files in `~/.local/share/omarchy/` — always override in `~/.config/`.
+link_to_agents() {
+  local target="$1"
+  local dir
+  dir="$(dirname "$target")"
+  mkdir -p "$dir"
+  # Relative target from ~/.claude or ~/.codex -> ~/.agents/AGENTS.md
+  ln -sfn ../.agents/AGENTS.md "$target"
 }
 
-OmarchyPackageManagement {
-  Constraints {
-    Never use `pacman -S` or `yay -S` directly — Omarchy's package wrappers ensure consistency across updates.
-  }
-
-  install(package) => match (package) {
-    case (official Arch repo) => `omarchy-pkg-add <package>`
-    case (AUR) => `omarchy-pkg-aur-add <package>`
-    case (interactive browsing) => `omarchy-pkg-install`
-  }
-
-  remove(package) => `omarchy-pkg-drop <package>`
-
-  check(package) => match (intent) {
-    case (is it missing?) => `omarchy-pkg-missing <package>`
-    case (is it present?) => `omarchy-pkg-present <package>`
-  }
-}
-
-## Mise
-
-Bun (and potentially other dev tools) are managed via [mise](https://mise.jdx.dev/). To upgrade:
-- `mise upgrade bun` — upgrade bun to latest
-- `mise install bun@latest && mise use -g bun@latest` — install and set a specific version globally
-
-Do not use `bun upgrade` or system package managers for bun.
-
-## Calendar
-
-constraint CalendarEvents {
-  create_event silently drops `location` — after creating, get_event to verify it stuck; if missing, set via update_event.
-  Use a full geocodable address (street, postal code, city, country).
-}
-
-## Gmail
-
-constraint ThreadReads {
-  search_threads returns only a partial subset of a thread's messages — never treat it as the full thread.
-  To read or summarize a thread => get_thread(threadId) for the complete message list.
-}
-
-## Printing
-
-constraint Printing {
-  Plain `lp` prints tiny on the Canon MG4200 (driverless IPP) — always force the paper size: `lp -o media=A4 -o fit-to-page <file>`.
-  The Canon also silently drops text in some embedded fonts (e.g. bank form fill-ins) — if content is missing from a printout, rasterize first: `pdftoppm -png -r 300` → `img2pdf`/`magick` → print the image PDF.
-}
-
-## Todos
-
-Personal todos live in **Taskwarrior** (`task` CLI; `taskwarrior-tui` for an interactive board). Drive everything through the `task` command — never hand-edit `~/.task/`.
-
-Tasks {
-  add(desc, priority?, due?, project?, tags?) => `task add "$desc" [priority:H|M|L] [due:$date] [project:$project] [+$tag]`
-  list   => `task next`        // urgency-ranked view
-  done(id)   => `task $id done`
-  drop(id)   => `task $id delete`
-  edit(id, …)=> `task $id modify …`
-
-  Priority ∈ { H, M, L, none }.
-  due accepts natural forms: due:today, due:tomorrow, due:friday, due:eod, due:2026-06-25.
-  Ranking in `task next` = computed urgency (priority + due + age + tags), not a manual sort.
-}
-
-constraint TodoIntake {
-  Never guess priority or deadline — ask.
-  If an item's meaning is ambiguous or underspecified (e.g. a terse label like "Post checken"), ask what it refers to before adding, so the stored task is self-explanatory later.
-  On a pasted batch: ask once (batched, not item-by-item spam) for each item's priority (H/M/L/none) and whether it has a deadline/delivery time + when, vs. a plain "need to do this". Only fall back to no-priority/no-due after the user declines.
-  On a single later add: ask where it sits in the priority order — capture as priority level, and when finer ranking is needed set a `due` date to position it relative to neighbours.
-  Disambiguate "schedule" / "scheduled today" — it carries several meanings; identify which before acting (ask if unclear):
-    1. defer in the tracker — set the task's `due`/`scheduled` to a later day (pure todo tracking).
-    2. do it today, send later — produce the artifact today (message/email/code), schedule it to go out (send/PR) on a future day => `due:today` + annotate "schedule the send for <day>".
-    3. like 2 but it goes out later *today* => `due:today` + annotate the send time.
-    4. book a calendar event/meeting (e.g. "schedule a call") => create via Calendar (MCP), not a todo.
-  Fold rich context into the task as annotations, including tool hints (about email => Gmail via MCP; about Slack => Slack via MCP; relevant links, names, the next concrete step) so the task stays actionable later without re-deriving context.
-  After any change, show the resulting `task next` so the user sees the new ranking.
-}
-
-## Personal Repos
-
-- **`~/dev/dotfiles`** — GNU Stow packages for config file overrides (`~/.config/hypr/`, `~/.config/espanso/`, etc.). Use for files that can be fully owned by the user and symlinked into `~/.config/`. Not suitable for shared files like `mimeapps.list` that other tools also write to.
-- **`~/dev/omarchy-supplement`** — Idempotent install scripts for post-Omarchy setup (packages, key remapping, default apps, web apps, themes, etc.). Use for imperative actions like `xdg-mime default`, package installs, or anything that modifies shared system state.
-CLAUDEEOF
-
-echo "[codex] Setting up AGENTS.md..."
-cp "$CLAUDE_DIR/CLAUDE.md" "$CODEX_DIR/AGENTS.md"
+if [[ -f "$AGENTS_MD" || -L "$AGENTS_MD" ]]; then
+  link_to_agents "$CLAUDE_DIR/CLAUDE.md"
+  link_to_agents "$CODEX_DIR/AGENTS.md"
+  echo "[claude] $CLAUDE_DIR/CLAUDE.md -> ../.agents/AGENTS.md"
+  echo "[codex] $CODEX_DIR/AGENTS.md -> ../.agents/AGENTS.md"
+fi
 
 echo "[claude] Done."

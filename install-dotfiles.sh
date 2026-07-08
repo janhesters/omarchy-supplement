@@ -4,7 +4,8 @@ set -e
 
 DOTFILES_DIR="$HOME/dev/dotfiles"
 DOTFILES_REPO="git@github.com:janhesters/dotfiles.git"
-STOW_PACKAGES=(codex cursor hyprland fastfetch voxtype xdg xcompose espanso wireplumber)
+# agents first so ~/.agents/AGENTS.md exists before claude/codex/grok symlinks
+STOW_PACKAGES=(agents claude codex grok cursor hyprland fastfetch voxtype xdg xcompose espanso wireplumber)
 SNAPSHOT_DIR="$HOME/.local/state/dotfiles/omarchy-templates"
 
 # Files we override (relative to ~/.config/)
