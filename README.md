@@ -20,7 +20,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `set-default-browser.sh` | Set Brave as the default browser |
 | `set-default-pdf-viewer.sh` | Set Xournal++ as the default PDF viewer |
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
-| `install-claude.sh` | Configure Claude Code settings, notification hook, and system instructions |
+| `install-claude.sh` | Configure Claude Code settings, notification hook, Claude instructions, and Codex instructions |
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
 | `install-tasks.sh` | Install the [omarchy-tasks](https://github.com/janhesters/omarchy-tasks) Waybar module (Taskwarrior tasks in the bar, Super + T opens taskwarrior-tui) |
 | `install-teleprompter.sh` | Set up teleprompter recording for the Elgato Prompter (DisplayLink/evdi display): enable the DisplayLink service and install a waybar indicator that distinguishes a teleprompter recording (cyan monitor glyph) from a normal gpu-screen-recorder one (red dot), click to stop. When the recording's watchdog is waiting for a disconnected prompter to come back (dock USB drop), the glyph turns orange instead of disappearing; the recording auto-resumes on reconnect and the session is stitched into one continuous video on stop. The Super + Alt + P binding and `record-teleprompter` script (watchdog + stitching) live in the [dotfiles](https://github.com/janhesters/dotfiles) repo. |
