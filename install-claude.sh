@@ -79,4 +79,21 @@ if [[ -f "$AGENTS_MD" || -L "$AGENTS_MD" ]]; then
   echo "[codex] $CODEX_DIR/AGENTS.md -> ../.agents/AGENTS.md"
 fi
 
+# TypeScript/JavaScript LSP: language server binary + official plugin (user scope)
+echo "[claude] Setting up TypeScript language server..."
+if command -v typescript-language-server &>/dev/null; then
+  echo "[claude] typescript-language-server already installed."
+elif command -v npm &>/dev/null; then
+  npm install -g typescript-language-server typescript
+else
+  echo "[claude] WARNING: npm not found (mise node missing?); skipping typescript-language-server install."
+fi
+
+if claude plugin list 2>/dev/null | grep -q "typescript-lsp@claude-plugins-official"; then
+  echo "[claude] typescript-lsp plugin already installed."
+else
+  echo "[claude] Installing typescript-lsp plugin..."
+  claude plugin install --scope user typescript-lsp@claude-plugins-official
+fi
+
 echo "[claude] Done."

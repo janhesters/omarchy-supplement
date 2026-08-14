@@ -20,7 +20,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `set-default-browser.sh` | Set Brave as the default browser |
 | `set-default-pdf-viewer.sh` | Set Xournal++ as the default PDF viewer |
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
-| `install-claude.sh` | Configure Claude Code settings and notification hook; link `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` to the shared `~/.agents/AGENTS.md` body (from the dotfiles `agents` package) |
+| `install-claude.sh` | Configure Claude Code settings and notification hook; link `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` to the shared `~/.agents/AGENTS.md` body (from the dotfiles `agents` package); install `typescript-language-server` (npm global) and the `typescript-lsp` Claude Code plugin (user scope) |
 | `install-grok.sh` | Install the Grok Build CLI via the official x.ai installer (user-level `~/.grok`, self-updating — the AUR package lags the beta releases); link `~/.grok/AGENTS.md` to `~/.agents/AGENTS.md` and set `permission_mode = "auto"` |
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) with a waybar indicator |
 | `install-tasks.sh` | Install the [omarchy-tasks](https://github.com/janhesters/omarchy-tasks) Waybar module (Taskwarrior tasks in the bar, Super + T opens taskwarrior-tui) |
