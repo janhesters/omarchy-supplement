@@ -234,8 +234,9 @@ if command -v espanso &>/dev/null; then
     "$layout_sync" --once
   fi
 
-  printf -v launch_cmd 'uwsm-app -- %q' "$layout_sync"
-  hyprctl dispatch exec "$launch_cmd" >/dev/null
+  # Match Quattro's UWSM launch path for this session too. Service mode is
+  # asynchronous; the default scope mode would block for this listener's life.
+  uwsm-app -t service -- "$layout_sync" >/dev/null
 fi
 
 if ((backup_created)); then

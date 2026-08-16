@@ -12,7 +12,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-keyd.sh` | Configure key remapping (CapsLock → Ctrl/Esc, Esc → Pause) |
 | `install-ddcutil.sh` | Enable DDC/CI for external monitor brightness control |
 | `install-scarlett.sh` | Fix distorted audio capture on Focusrite Scarlett 2i2 |
-| `install-keyboard-layout.sh` | Set up Dvorak + US QWERTY switching with Left Alt + Right Alt, Pinyin with Ctrl+/, and the Omarchy Shell layout widget |
+| `install-keyboard-layout.sh` | Set up Dvorak + US QWERTY switching with Left Alt + Right Alt, disable the retired Pinyin input method, and add the Omarchy Shell layout widget |
 | `install-webapps.sh` | Install web apps (Claude, Claude Code, Google Mail, Google Calendar) |
 | `install-dotfiles.sh` | Back up and Stow Quattro-compatible dotfiles, reload Hyprland, select Espanso's active layout profile, and start its layout-sync listener (includes shared global agent instructions) |
 | `install-themes.sh` | Install extra Omarchy themes |

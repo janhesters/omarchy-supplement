@@ -6,7 +6,7 @@ echo "[packages] Installing packages..."
 
 # Official repo packages
 echo "[packages] Installing from official repos..."
-omarchy pkg add stow ddcutil keyd voxtype fcitx5-chinese-addons socat task taskwarrior-tui wf-recorder
+omarchy pkg add stow ddcutil keyd voxtype socat task taskwarrior-tui wf-recorder
 
 # AUR packages
 echo "[packages] Installing from AUR..."
