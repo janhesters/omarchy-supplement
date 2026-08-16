@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 echo "[browser] Setting Brave as default browser..."
-xdg-settings set default-web-browser brave-browser.desktop
+omarchy default browser brave
 echo "[browser] Done."
