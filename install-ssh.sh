@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 echo "[ssh] Setting up SSH key..."
 
 if [ -f "$HOME/.ssh/id_ed25519" ]; then

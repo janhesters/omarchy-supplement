@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 echo "[repos] Cloning development repositories..."
 
 mkdir -p "$HOME/dev"
