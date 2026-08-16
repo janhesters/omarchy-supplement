@@ -23,10 +23,11 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
 | `install-claude.sh` | Install `typescript-language-server` and the Claude Code TypeScript plugin; settings, hooks, and shared instructions are owned by dotfiles |
 | `install-grok.sh` | Install the Grok Build CLI via the official x.ai installer (user-level `~/.grok`, self-updating — the AUR package lags the beta releases); link `~/.grok/AGENTS.md` to `~/.agents/AGENTS.md` and set `permission_mode = "auto"` |
-| `install-focus.sh` | Legacy Omarchy 3 focus indicator installer; excluded from `install-all.sh` until `omarchy-focus` becomes a Quattro shell plugin |
+| `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) via `/etc/hosts`, with a Quattro shell indicator (`shell/indicators/Focus.qml`) that turns red while focus mode is on; click it to unblock |
 | `install-tasks.sh` | Legacy Omarchy 3 tasks indicator installer; excluded from `install-all.sh` until `omarchy-tasks` becomes a Quattro shell plugin |
-| `install-teleprompter.sh` | Enable DisplayLink for the Elgato Prompter; the Super + Alt + P recording helper lives in dotfiles, and its Quattro shell indicator will be a separate plugin |
+| `install-teleprompter.sh` | Enable DisplayLink for the Elgato Prompter; the Super + Alt + P recording helper lives in dotfiles. Installs `shell/indicators/ScreenRecording.qml`, which overrides the stock indicator so a teleprompter capture (cyan monitor glyph, orange while the watchdog waits for a dropped prompter) stays distinguishable from a gpu-screen-recorder one (red dot) |
 | `check-drift.sh` | Detect when omarchy template updates conflict with dotfile overrides |
+| `shell/install-shell-indicator.sh` | Install a custom indicator QML into a user-owned clone of the `omarchy.indicators` shell plugin, registering it in the plugin manifest and bar layout. Used by `install-focus.sh` and `install-teleprompter.sh` |
 
 ## Usage
 
