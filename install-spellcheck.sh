@@ -14,17 +14,19 @@
 # NOTE: Do NOT set the LANGUAGE environment variable for spellcheck — it
 # changes the UI language of CLI tools (git, pacman, etc.) to German.
 
-set -e
+set -euo pipefail
 
 # Clean up the old LANGUAGE env var approach which broke CLI tool locales
 ENV_FILE="$HOME/.config/environment.d/language.conf"
 if [[ -f "$ENV_FILE" ]] && grep -q 'LANGUAGE=.*de' "$ENV_FILE"; then
-  rm "$ENV_FILE"
-  echo "[spellcheck] Removed $ENV_FILE (was breaking CLI locale)."
+  backup="$HOME/.local/state/dotfiles/backups/language.conf-$(date +%Y%m%d%H%M%S)"
+  mkdir -p "$(dirname "$backup")"
+  mv "$ENV_FILE" "$backup"
+  echo "[spellcheck] Archived the old LANGUAGE override at $backup."
 fi
 
 echo "[spellcheck] Installing hunspell dictionaries..."
 
-omarchy-pkg-add hunspell-en_us hunspell-de
+omarchy pkg add hunspell-en_us hunspell-de
 
 echo "[spellcheck] Done."

@@ -3,6 +3,8 @@
 # Run all install scripts in order.
 # Each script is idempotent and safe to re-run.
 
+set -euo pipefail
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "=== omarchy-supplement: full setup ==="
@@ -19,13 +21,14 @@ echo ""
 "$SCRIPT_DIR/install-themes.sh"
 "$SCRIPT_DIR/install-repos.sh"
 "$SCRIPT_DIR/set-default-browser.sh"
+"$SCRIPT_DIR/set-default-terminal.sh"
 "$SCRIPT_DIR/set-default-pdf-viewer.sh"
 "$SCRIPT_DIR/install-spellcheck.sh"
 "$SCRIPT_DIR/install-claude.sh"
 "$SCRIPT_DIR/install-grok.sh"
-"$SCRIPT_DIR/install-focus.sh"
-"$SCRIPT_DIR/install-tasks.sh"
 "$SCRIPT_DIR/install-teleprompter.sh"
+
+echo "[all] Focus and Tasks bar widgets are skipped until their Quattro plugin ports are ready."
 
 echo ""
 echo "=== All done! ==="
