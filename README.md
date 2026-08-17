@@ -26,6 +26,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-focus.sh` | Block distracting websites (X, YouTube, Reddit) via `/etc/hosts`, with a Quattro shell indicator (`shell/indicators/Focus.qml`) that turns red while focus mode is on; click it to unblock |
 | `install-tasks.sh` | Legacy Omarchy 3 tasks indicator installer; excluded from `install-all.sh` until `omarchy-tasks` becomes a Quattro shell plugin |
 | `install-teleprompter.sh` | Enable DisplayLink for the Elgato Prompter; the Super + Alt + P recording helper lives in dotfiles. Installs `shell/indicators/ScreenRecording.qml`, which overrides the stock indicator so a teleprompter capture (cyan monitor glyph, orange while the watchdog waits for a dropped prompter) stays distinguishable from a gpu-screen-recorder one (red dot) |
+| `install-codex-config.sh` | Apply the dotfiles' `config.base.toml` to `~/.codex/config.toml`, preserving everything Codex writes there itself. `--pull` snapshots durable settings back into the dotfiles; `--check` reports drift. Codex owns the live file, so it is deliberately not a Stow symlink |
 | `check-drift.sh` | Detect when omarchy template updates conflict with dotfile overrides |
 | `shell/install-shell-indicator.sh` | Install a custom indicator QML into a user-owned clone of the `omarchy.indicators` shell plugin, registering it in the plugin manifest and bar layout. Used by `install-focus.sh` and `install-teleprompter.sh` |
 
