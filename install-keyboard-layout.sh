@@ -55,7 +55,7 @@ if fcitx5-remote --check &>/dev/null; then
     --dest org.fcitx.Fcitx5 \
     --object-path /controller \
     --method org.fcitx.Fcitx.Controller1.SetInputMethodGroupInfo \
-    Default '' "[]" >/dev/null
+    Default us "[('keyboard-us', '')]" >/dev/null
   gdbus call --session \
     --dest org.fcitx.Fcitx5 \
     --object-path /controller \
@@ -80,9 +80,12 @@ EOF
 cat > "$FCITX5_PROFILE" <<'EOF'
 [Groups/0]
 Name=Default
-Items=
-Default Layout=
-DefaultIM=
+Default Layout=us
+DefaultIM=keyboard-us
+
+[Groups/0/Items/0]
+Name=keyboard-us
+Layout=
 
 [GroupOrder]
 0=Default
