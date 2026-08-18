@@ -5,7 +5,7 @@ set -euo pipefail
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dev/dotfiles}"
 DOTFILES_REPO="git@github.com:janhesters/dotfiles.git"
 # agents first so ~/.agents/AGENTS.md exists before claude/codex/grok symlinks
-STOW_PACKAGES=(agents claude codex grok cursor hyprland fastfetch voxtype xcompose espanso wireplumber)
+STOW_PACKAGES=(agents claude codex t3 grok cursor hyprland fastfetch voxtype xcompose espanso wireplumber)
 SNAPSHOT_DIR="$HOME/.local/state/dotfiles/omarchy-templates"
 OMARCHY_CONFIG="${OMARCHY_PATH:-/usr/share/omarchy}/config"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)-$$"
