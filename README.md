@@ -19,7 +19,7 @@ Additional packages, dotfiles, and overrides to be used **after** installing [Om
 | `install-repos.sh` | Clone development repositories |
 | `set-default-browser.sh` | Set Brave as the default browser |
 | `set-default-terminal.sh` | Set Alacritty as the default terminal through Omarchy and `xdg-terminal-exec` |
-| `set-default-pdf-viewer.sh` | Set Xournal++ as the default PDF viewer |
+| `set-default-pdf-viewer.sh` | Set Document Viewer (Evince) as the default PDF viewer |
 | `install-spellcheck.sh` | Install hunspell dictionaries for English and German spell checking |
 | `install-claude.sh` | Install `typescript-language-server` and the Claude Code TypeScript plugin; settings, hooks, and shared instructions are owned by dotfiles |
 | `install-grok.sh` | Install the Grok Build CLI via the official x.ai installer (user-level `~/.grok`, self-updating — the AUR package lags the beta releases); link `~/.grok/AGENTS.md` to `~/.agents/AGENTS.md` and set `permission_mode = "auto"` |
