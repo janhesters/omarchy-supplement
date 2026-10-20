@@ -27,10 +27,10 @@ echo ""
 "$SCRIPT_DIR/install-spellcheck.sh"
 "$SCRIPT_DIR/install-claude.sh"
 "$SCRIPT_DIR/install-grok.sh"
+"$SCRIPT_DIR/install-nightlight.sh"
 "$SCRIPT_DIR/install-teleprompter.sh"
 "$SCRIPT_DIR/install-focus.sh"
-
-echo "[all] The Tasks bar widget is skipped until omarchy-tasks has a Quattro plugin port."
+"$SCRIPT_DIR/install-tasks.sh"
 
 echo ""
 echo "=== All done! ==="

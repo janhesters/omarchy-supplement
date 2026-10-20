@@ -1,26 +1,40 @@
 #!/bin/bash
 
-# Install the omarchy-tasks Waybar module: shows actionable Taskwarrior tasks
-# (overdue + due today) in the bar, with upcoming tasks in the tooltip.
-# Click it or press Super + T to open taskwarrior-tui.
-#
-# Requires task + taskwarrior-tui (installed by install-packages.sh).
+# Install the native Omarchy shell plugin for Taskwarrior tasks.
 
-set -e
+set -euo pipefail
 
-REPO_DIR="$HOME/dev/omarchy-tasks"
+PLUGIN_ID="io.github.janhesters.tasks"
+PLUGIN_URL="https://github.com/janhesters/omarchy-tasks.git"
+PLUGIN_DIR="$HOME/.config/omarchy/plugins/$PLUGIN_ID"
 
-echo "[tasks] Setting up Taskwarrior waybar module..."
+echo "[tasks] Setting up the Taskwarrior shell plugin..."
 
-mkdir -p "$HOME/dev"
+omarchy pkg add task taskwarrior-tui
 
-if [ -d "$REPO_DIR" ]; then
-  echo "[tasks] omarchy-tasks already cloned, pulling latest."
-  git -C "$REPO_DIR" pull --ff-only || true
+if [[ -d $PLUGIN_DIR/.git ]]; then
+  echo "[tasks] Updating the installed plugin."
+  omarchy plugin update "$PLUGIN_ID" --yes
+elif [[ -d $PLUGIN_DIR ]]; then
+  echo "[tasks] Using the locally installed plugin."
+  omarchy plugin validate "$PLUGIN_DIR"
+  omarchy-shell shell rescanPlugins
 else
-  git clone git@github.com:janhesters/omarchy-tasks.git "$REPO_DIR"
+  omarchy plugin add "$PLUGIN_URL" --enable --yes
 fi
 
-"$REPO_DIR/install.sh"
+for _ in {1..40}; do
+  if omarchy plugin list --json | jq -e --arg id "$PLUGIN_ID" 'any(.[]; .id == $id)' >/dev/null; then
+    break
+  fi
+  sleep 0.05
+done
+
+omarchy plugin enable "$PLUGIN_ID"
+if omarchy plugin list --json | jq -e 'any(.[]; .id == "io.github.janhesters.focus" and .enabled)' >/dev/null; then
+  omarchy bar move "$PLUGIN_ID" --section center --before io.github.janhesters.focus
+else
+  omarchy bar move "$PLUGIN_ID" --section center --before omarchy.system-update
+fi
 
 echo "[tasks] Done."
