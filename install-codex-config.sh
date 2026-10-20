@@ -73,9 +73,15 @@ DURABLE_SCALARS = (
 DURABLE_TABLES = ("sandbox_workspace_write", "tui")
 # model_availability_nux is a "you have N previews left" counter, not a setting.
 VOLATILE_SUBTABLES = {"tui": ("model_availability_nux",)}
-# Codex creates one trust entry per session under ~/Documents/Codex/<date>/<slug>.
-# Those never recur, so tracking them would grow the file without ever helping.
-SCRATCH_PROJECT_MARKER = os.path.join(os.path.expanduser("~"), "Documents", "Codex")
+# Codex creates one trust entry per session under ~/Documents/Codex/<date>/<slug>,
+# and one per checkout the open-constructor-loop harness runs it in (worktrees,
+# review checkouts, test folders in /tmp). Those never recur, and the harness's
+# folder names carry private ticket titles, so they are never tracked.
+SCRATCH_PROJECT_PREFIXES = (
+    os.path.join(os.path.expanduser("~"), "Documents", "Codex"),
+    os.path.join(os.path.expanduser("~"), ".local", "share", "open-constructor-loop") + os.sep,
+    "/tmp/",
+)
 
 COMMENTS = {
     "tui": (
@@ -124,7 +130,7 @@ def durable(config):
         kept = {
             path: settings
             for path, settings in projects.items()
-            if not path.startswith(SCRATCH_PROJECT_MARKER)
+            if not path.startswith(SCRATCH_PROJECT_PREFIXES)
         }
         if kept:
             out["projects"] = kept
